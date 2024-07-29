@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter as Router,Routes} from 'react-router-dom'
+import {BrowserRouter,Routes,Route,Link} from 'react-router-dom' 
 import Home from "./Components/Home"
 import CreateForm from "./Components/CreateForm"
 import EditForm from "./Components/EditForm"
@@ -7,13 +7,15 @@ import ViewForm from "./Components/ViewForm"
 
 const App = () => {
   return (
-    <Router>
-        <Routes path='/' exact component={<Home/>}/>
-        <Routes path='/form/create'  component={<CreateForm/>}/>
-        <Routes path='/form/:id/edit'  component={<EditForm/>}/>
-        <Routes path='/form/:id'  component={<ViewForm/>}/>
+    <BrowserRouter>
+    <Routes>
+        <Route path='/' exact element={<Home/>}/>
+        <Route path='/form/create' element={<CreateForm/>}/>
+        <Route path='/form/:id/edit' element={<EditForm/>}/>
+        <Route path='/form/:id' element={<ViewForm/>}/>
 
-    </Router>
+    </Routes>
+    </BrowserRouter>
   )
 }
 

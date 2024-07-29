@@ -5,11 +5,12 @@ const formCltr = {}
 
 formCltr.create = async(req,res)=>{
     try {
-        
+        console.log(req.body,"create")
         const form = new Form(req.body)
         await form.save()
         return res.status(201).json(form)
     } catch (error) {
+        console.log(error)
         return res.status(500).json({
             message:"Error creating the Form",
             error:error,
@@ -29,10 +30,15 @@ formCltr.read = async(req,res)=>{
     }
 }
 formCltr.readOne = async(req,res)=>{
+    console.log(req.params.id,"id")
+
     try {
-        const form = await Form.findById(req.params.id)
+        let form
+        if(req.params.id) form = await Form.findById({_id:req.params.id})
+            else return res.json("Id missing")
         return res.status(200).json(form)
     } catch (error) {
+        console.log(error)
         return res.status(500).json({
             message:"Error creating the Form",
             error:error,

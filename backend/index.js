@@ -10,12 +10,13 @@ db()
 
 app.use(cors())
 app.use(bodyParser.json())
-// app.use(express.json())
+app.use(express.json())
 
 app.post('/api/v1/forms',formCltr.create)
 app.get('/api/v1/forms',formCltr.read)
-app.get('/api/forms/:id',formCltr.readOne)
-app.put('/api/forms/:id',formCltr.update)
-app.listen(()=>{
+app.get('/api/v1/forms/:id',formCltr.readOne)
+app.put('/api/v1/forms/:id',formCltr.update)
+
+app.listen(PORT,()=>{
     console.log("running on Port",PORT)
 })
