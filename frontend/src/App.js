@@ -1,25 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import {BrowserRouter as Router,Routes} from 'react-router-dom'
+import Home from "./Components/Home"
+import CreateForm from "./Components/CreateForm"
+import EditForm from "./Components/EditForm"
+import ViewForm from "./Components/ViewForm"
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+        <Routes path='/' exact component={<Home/>}/>
+        <Routes path='/form/create'  component={<CreateForm/>}/>
+        <Routes path='/form/:id/edit'  component={<EditForm/>}/>
+        <Routes path='/form/:id'  component={<ViewForm/>}/>
+
+    </Router>
+  )
 }
 
-export default App;
+export default App
