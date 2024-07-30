@@ -77,21 +77,21 @@
 
 // export default CreateForm;
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useDrag, useDrop, DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import update from 'immutability-helper';
-import "../CSS/createform.css";
+import axios from 'axios'
+import { useDrag, useDrop, DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import update from 'immutability-helper'
+import "../CSS/createform.css"
 
 const ItemTypes = {
   INPUT: 'input',
-};
+}
 
 const DraggableInput = ({ input, index, moveInput, handleDeleteInput }) => {
   const [, ref] = useDrag({
     type: ItemTypes.INPUT,
     item: { index },
-  });
+  })
 
   const [, drop] = useDrop({
     accept: ItemTypes.INPUT,
@@ -101,7 +101,7 @@ const DraggableInput = ({ input, index, moveInput, handleDeleteInput }) => {
         draggedItem.index = index;
       }
     },
-  });
+  })
 
   return (
     <div ref={(node) => ref(drop(node))} className="generated-inputs">
@@ -199,4 +199,4 @@ const CreateForm = () => {
   );
 };
 
-export default CreateForm;
+export default CreateForm

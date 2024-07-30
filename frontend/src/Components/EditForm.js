@@ -159,22 +159,22 @@
 // export default EditForm;
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { useDrag, useDrop, DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import update from 'immutability-helper';
-import "../CSS/createform.css";
+import axios from 'axios'
+import { useParams } from 'react-router-dom'
+import { useDrag, useDrop, DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import update from 'immutability-helper'
+import "../CSS/createform.css"
 
 const ItemTypes = {
   INPUT: 'input',
-};
+}
 
 const DraggableInput = ({ input, index, moveInput, handleDeleteInput }) => {
   const [, ref] = useDrag({
     type: ItemTypes.INPUT,
     item: { index },
-  });
+  })
 
   const [, drop] = useDrop({
     accept: ItemTypes.INPUT,
@@ -184,7 +184,7 @@ const DraggableInput = ({ input, index, moveInput, handleDeleteInput }) => {
         draggedItem.index = index;
       }
     },
-  });
+  })
 
   return (
     <div ref={(node) => ref(drop(node))} className="generated-inputs">
@@ -198,22 +198,22 @@ const DraggableInput = ({ input, index, moveInput, handleDeleteInput }) => {
         <button onClick={() => handleDeleteInput(index)}>Delete</button>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const EditForm = () => {
   const { id } = useParams();
-  const [title, setTitle] = useState('');
-  const [inputs, setInputs] = useState([]);
+  const [title, setTitle] = useState('')
+  const [inputs, setInputs] = useState([])
 
   useEffect(() => {
     axios.get(`http://localhost:3311/api/v1/forms/${id}`)
       .then(response => {
-        setTitle(response.data.title);
-        setInputs(response.data.inputs);
+        setTitle(response.data.title)
+        setInputs(response.data.inputs)
       })
       .catch(error => console.error('Error fetching form:', error));
-  }, [id]);
+  }, [id])
 
   const handleAddInput = (type) => {
     const inputTitle = prompt('Enter input title')
@@ -225,12 +225,12 @@ const EditForm = () => {
 
       }
     }
-  };
+  }
 
   const handleDeleteInput = (index) => {
     const newInputs = inputs.filter((_, i) => i !== index);
-    setInputs(newInputs);
-  };
+    setInputs(newInputs)
+  }
 
   const moveInput = (fromIndex, toIndex) => {
     const updatedInputs = update(inputs, {
@@ -238,18 +238,18 @@ const EditForm = () => {
         [fromIndex, 1],
         [toIndex, 0, inputs[fromIndex]],
       ],
-    });
+    })
     setInputs(updatedInputs);
-  };
+  }
 
   const handleSubmit = async () => {
     try {
       const response = await axios.put(`http://localhost:3311/api/v1/forms/${id}`, { title, inputs });
-      alert("Form updated successfully!");
+      alert("Form updated successfully!")
     } catch (error) {
-      console.error('Error updating form:', error);
+      console.error('Error updating form:', error)
     }
-  };
+  }
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -284,7 +284,7 @@ const EditForm = () => {
         </div>
       </div>
     </DndProvider>
-  );
-};
+  )
+}
 
-export default EditForm;
+export default EditForm
