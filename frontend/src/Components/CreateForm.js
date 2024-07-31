@@ -121,6 +121,7 @@ const DraggableInput = ({ input, index, moveInput, handleDeleteInput }) => {
 const CreateForm = () => {
   const [title, setTitle] = useState('');
   const [inputs, setInputs] = useState([]);
+  const [errors,setErrors] = useState([])
 
   const handleAddInput = (type) => {
     const inputTitle = prompt('Enter input title')
@@ -132,7 +133,9 @@ const CreateForm = () => {
 
       }
     }
-  };
+
+
+  }
 
   const handleDeleteInput = (index) => {
     const finalInputs = inputs.filter((ele, i) => i !== index);
@@ -156,14 +159,26 @@ const CreateForm = () => {
       });
       alert("Response Saved!!!", response.data);
     } catch (error) {
-      console.log(error);
+      console.log(error)
+      setErrors(error.response.data.errors)
     }
   };
 
   return (
+    <div>
+      <h1>Create Form</h1>
+      <div className='error-container'> 
+      {
+  errors.length > 0 && errors.map((error, index) => (
+    <div key={index} className="error-message">
+      <div className="error-path">{error.path}</div>
+      <p className="error-msg">{error.msg}</p>
+    </div>
+  ))
+      }
+      </div>
     <DndProvider backend={HTML5Backend}>
       <div>
-        <h1>Create Form</h1>
         <div className='input-button-container'>
           <input
             type='text'
@@ -196,6 +211,7 @@ const CreateForm = () => {
         </div>
       </div>
     </DndProvider>
+    </div>
   );
 };
 

@@ -1,9 +1,14 @@
 const Form = require("../models/form-model")
+const { validationResult } = require("express-validator")
 
 const formCltr = {}
 
 
 formCltr.create = async(req,res)=>{
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(400).json({error:errors.array()})
+    }
     try {
         console.log(req.body,"create")
         const form = new Form(req.body)
@@ -46,6 +51,10 @@ formCltr.readOne = async(req,res)=>{
     }
 }
 formCltr.update = async(req,res)=>{
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(400).json({error:errors.array()})
+    }
     try {
         const form = await Form.findByIdAndUpdate(req.params.id,req.body,{new:true})
         return res.status(201).json(form)

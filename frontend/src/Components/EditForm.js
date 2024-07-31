@@ -205,6 +205,8 @@ const EditForm = () => {
   const { id } = useParams();
   const [title, setTitle] = useState('')
   const [inputs, setInputs] = useState([])
+  const [errors,setErrors] = useState([])
+
 
   useEffect(() => {
     axios.get(`http://localhost:3311/api/v1/forms/${id}`)
@@ -248,13 +250,26 @@ const EditForm = () => {
       alert("Form updated successfully!")
     } catch (error) {
       console.error('Error updating form:', error)
+      setErrors(error.response.data.errors)
+
     }
   }
 
   return (
+    <div>
+        <h1>Edit Form</h1>
+        <div className='error-container'> 
+      {
+  errors.length > 0 && errors.map((error, index) => (
+    <div key={index} className="error-message">
+      <div className="error-path">{error.path}</div>
+      <p className="error-msg">{error.msg}</p>
+    </div>
+  ))
+      }
+      </div>
     <DndProvider backend={HTML5Backend}>
       <div>
-        <h1>Edit Form</h1>
         <input
           type="text"
           placeholder="Form Title"
@@ -284,6 +299,7 @@ const EditForm = () => {
         </div>
       </div>
     </DndProvider>
+    </div>
   )
 }
 
